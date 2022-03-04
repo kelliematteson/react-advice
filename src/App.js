@@ -1,31 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
 
 
-class App extends React.Component {
-    state = { advice: '' };
+export default function App() {
+    const [ advice, setAdvice ] = useState(
+        'hello'
+    );
 
-    componentDidMount() {
-        this.fetchAdvice()
-    }
 
-    fetchAdvice = () => {
+
+    const fetchAdvice = () => {
         axios.get('https://api.adviceslip.com/advice')
             .then((response) => {
                 const { advice } = response.data.slip;
-                this.setState({ advice });
+                setAdvice(advice)
             })
             .catch((error) => {
                 console.log(error)
             })
     }    
-    render(){
-        const { advice } = this.state;
+    
+
+    
         return (
-            <h1>{advice}</h1>
+            <button onClick={fetchAdvice}>{advice}</button>
         )
-    }
 }
 
-export default App;
